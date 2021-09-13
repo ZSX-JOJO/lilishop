@@ -24,11 +24,11 @@ spring:
   boot:
     admin:
       client:
-        url: http://192.168.0.116:8000
+        url: http://10.39.93.102:8000
   # mongodb
   data:
     mongodb:
-      host: 192.168.0.116
+      host: 10.39.93.102
       port: 27017
       database: lilishop
       username: root
@@ -39,7 +39,7 @@ spring:
     type: redis
   # Redis
   redis:
-    host: 192.168.0.116
+    host: 10.39.93.102
     port: 6379
     password: lilishop
     lettuce:
@@ -70,7 +70,7 @@ spring:
       default-datasource:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://192.168.0.116:3306/lilishop?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+        url: jdbc:mysql://10.39.93.102:3306/lilishop?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
         username: root
         password: lilishop
         maxActive: 20
@@ -114,7 +114,7 @@ spring:
     props:
       #是否打印逻辑SQL语句和实际SQL语句，建议调试时打印，在生产环境关闭
       sql:
-        show: false
+        show: true
 
 # 忽略鉴权url
 ignored:
@@ -238,16 +238,16 @@ lili:
     sk: zhNKVrJK6UPOhqIjn8AQvG37b9sz6
   #域名
   domain:
-    pc: http://192.168.0.116:8888
-    wap: http://192.168.0.116:8888
-    seller: http://192.168.0.116:8888
-    admin: http://192.168.0.116:8888
+    pc: http://10.39.93.102:8888
+    wap: http://10.39.93.102:8888
+    seller: http://10.39.93.102:8888
+    admin: http://10.39.93.102:8888
   #api地址
   api:
     buyer: https://z171l91606.51mypc.cn
-    base: http://192.168.0.116:8888
-    manager: http://192.168.0.116:8888
-    seller: http://192.168.0.116:8888
+    base: http://10.39.93.102:8888
+    manager: http://10.39.93.102:8888
+    seller: http://10.39.93.102:8888
 
   # jwt 细节设定
   jwt-setting:
@@ -266,7 +266,7 @@ lili:
   data:
     elasticsearch:
       cluster-name: elasticsearch
-      cluster-nodes: 192.168.0.116:9200
+      cluster-nodes: 10.39.93.102:9200
       index:
         number-of-replicas: 0
         number-of-shards: 3
@@ -277,7 +277,7 @@ lili:
     #        password: LiLiShopES
 
     logstash:
-      server: 192.168.0.116:4560
+      server: 10.39.93.102:4560
     rocketmq:
       promotion-topic: lili_promotion_topic
       promotion-group: lili_promotion_group
@@ -296,8 +296,8 @@ lili:
       notice-send-topic: lili_send_notice_topic
       notice-send-group: lili_send_notice_group
 rocketmq:
-  name-server: 192.168.0.116:9876
-  namesrvAddr: 192.168.0.116:9876
+  name-server: 10.39.93.102:9876
+  namesrvAddr: 10.39.93.102:9876
   isVIPChannel: false
   producer:
     group: lili_group
@@ -306,7 +306,7 @@ rocketmq:
 xxl:
   job:
     admin:
-      addresses: http://192.168.0.116:9001/xxl-job-admin
+      addresses: http://10.39.93.102:9001/xxl-job-admin
     executor:
       appname: xxl-job-executor-lilishop
       address:
