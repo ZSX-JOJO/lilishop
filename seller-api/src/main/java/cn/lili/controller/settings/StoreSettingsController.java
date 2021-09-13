@@ -2,7 +2,9 @@ package cn.lili.controller.settings;
 
 
 import cn.lili.common.enums.ResultUtil;
+import cn.lili.common.security.context.UserContext;
 import cn.lili.common.vo.ResultMessage;
+import cn.lili.modules.store.entity.dos.Store;
 import cn.lili.modules.store.entity.dto.StoreAfterSaleAddressDTO;
 import cn.lili.modules.store.entity.dto.StoreSettingDTO;
 import cn.lili.modules.store.entity.vos.StoreVO;
@@ -12,12 +14,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * 店铺端,店铺设置接口
@@ -79,4 +79,21 @@ public class StoreSettingsController {
         boolean result = storeDetailService.editStoreAfterSaleAddressDTO(storeAfterSaleAddressDTO);
         return ResultUtil.data(result);
     }
+
+    @ApiOperation(value = "开启店铺")
+    @PutMapping(value = "/enable")
+    public ResultMessage<Store> enable() {
+        String storeId = Objects.requireNonNull(UserContext.getCurrentUser()).getStoreId();
+        storeService.enable(storeId);
+        return ResultUtil.success();
+    }
+
+    @ApiOperation(value = "店铺歇业")
+    @PutMapping(value = "/shutDown")
+    public ResultMessage<Store> shutDown() {
+        String storeId = Objects.requireNonNull(UserContext.getCurrentUser()).getStoreId();
+        storeService.shutDown(storeId);
+        return ResultUtil.success();
+    }
+
 }

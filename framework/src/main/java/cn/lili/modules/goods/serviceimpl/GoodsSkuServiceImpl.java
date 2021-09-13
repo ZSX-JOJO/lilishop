@@ -32,6 +32,8 @@ import cn.lili.modules.member.service.MemberEvaluationService;
 import cn.lili.modules.search.entity.dos.EsGoodsAttribute;
 import cn.lili.modules.search.entity.dos.EsGoodsIndex;
 import cn.lili.modules.search.service.EsGoodsIndexService;
+import cn.lili.modules.store.entity.dos.Store;
+import cn.lili.modules.store.service.StoreService;
 import cn.lili.mybatis.util.PageUtil;
 import cn.lili.rocketmq.RocketmqSendCallbackBuilder;
 import cn.lili.rocketmq.tags.GoodsTagsEnum;
@@ -98,6 +100,9 @@ public class GoodsSkuServiceImpl extends ServiceImpl<GoodsSkuMapper, GoodsSku> i
      */
     @Autowired
     private GoodsService goodsService;
+
+    @Autowired
+    private StoreService storeService;
     /**
      * 商品索引
      */
@@ -226,7 +231,9 @@ public class GoodsSkuServiceImpl extends ServiceImpl<GoodsSkuMapper, GoodsSku> i
         //从缓存拿商品Sku
         GoodsSku goodsSku = this.getGoodsSkuByIdFromCache(skuId);
 
+        Store store = storeService.getById(goodsVO.getStoreId());
 
+        map.put("storeStatus", store.getStoreDisable());
         //如果规格为空则使用商品ID进行查询
         if (goodsSku == null) {
             skuId = goodsVO.getSkuList().get(0).getId();

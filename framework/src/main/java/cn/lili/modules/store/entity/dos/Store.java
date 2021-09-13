@@ -41,6 +41,15 @@ public class Store extends BaseEntity {
     @ApiModelProperty(value = "店铺名称")
     private String storeName;
 
+    @ApiModelProperty(value = "店铺开业时间(时分)")
+    private String storeOpenTime;
+
+    @ApiModelProperty(value = "店铺歇业时间（时分）")
+    private String storeCloseTime;
+
+    @ApiModelProperty(value = "是否缴纳押金")
+    private Boolean depositPayment;
+
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "店铺关闭时间")

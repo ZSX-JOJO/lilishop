@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * 店铺数据处理层
@@ -36,5 +37,16 @@ public interface StoreMapper extends BaseMapper<Store> {
     @Select("select s.* from li_store as s ${ew.customSqlSegment}")
     IPage<StoreVO> getStoreList(IPage<StoreVO> page, @Param(Constants.WRAPPER) Wrapper<StoreVO> queryWrapper);
 
+    /**
+     * 根据当前时间自动歇业不在营业时间内的店铺
+     */
+    @Update("UPDATE li_store SET store_disable = 'SHUT_DOWN' WHERE (STR_TO_DATE( store_open_time, '%H:%i' ) >= FROM_UNIXTIME(UNIX_TIMESTAMP(), '%H:%i') OR STR_TO_DATE( store_close_time, '%H:%i' ) <= FROM_UNIXTIME(UNIX_TIMESTAMP(), '%H:%i')) AND store_disable = 'OPEN'")
+    void autoShutDownStore();
+
+    /**
+     * 根据当前时间自动开启不在营业时间内的店铺
+     */
+    @Update("UPDATE li_store SET store_disable = 'OPEN' WHERE STR_TO_DATE( store_open_time, '%H:%i' ) <= FROM_UNIXTIME(UNIX_TIMESTAMP(), '%H:%i') AND STR_TO_DATE( store_close_time, '%H:%i' ) >= FROM_UNIXTIME(UNIX_TIMESTAMP(), '%H:%i') AND store_disable = 'SHUT_DOWN'")
+    void autoOpenStore();
 
 }

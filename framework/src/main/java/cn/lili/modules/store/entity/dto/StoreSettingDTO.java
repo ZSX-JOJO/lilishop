@@ -33,4 +33,10 @@ public class StoreSettingDTO {
     @ApiModelProperty(value = "经纬度")
     private String center;
 
+    @ApiModelProperty(value = "店铺开业时间(时分)，HH:mm")
+    private String storeOpenTime;
+
+    @ApiModelProperty(value = "店铺歇业时间(时分), HH:mm")
+    private String storeCloseTime;
+
 }

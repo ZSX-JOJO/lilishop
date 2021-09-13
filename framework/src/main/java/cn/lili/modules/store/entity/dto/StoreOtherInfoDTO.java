@@ -1,11 +1,14 @@
 package cn.lili.modules.store.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 /**
  * 店铺入驻其他信息
@@ -48,5 +51,11 @@ public class StoreOtherInfoDTO {
     @NotBlank(message = "地址详情")
     @ApiModelProperty(value = "地址详情")
     private String storeAddressDetail;
+
+    @ApiModelProperty(value = "店铺开业时间(时分)，HH:mm")
+    private String storeOpenTime;
+
+    @ApiModelProperty(value = "店铺歇业时间(时分), HH:mm")
+    private String storeCloseTime;
 
 }

@@ -68,6 +68,33 @@ public interface StoreService extends IService<Store> {
     boolean disable(String id);
 
     /**
+     * 手动关闭店铺
+     *
+     * @param id 店铺ID
+     * @return 店铺
+     */
+    boolean shutDown(String id);
+
+    /**
+     * 审核缴纳押金
+     *
+     * @param id 店铺ID
+     * @param confirm 是否确认缴纳押金
+     * @return 是否更新成功
+     */
+    boolean auditDepositPayment(String id, Boolean confirm);
+
+    /**
+     * 根据当前时间自动歇业不在营业时间内的店铺
+     */
+    void autoShutdown();
+
+    /**
+     * 根据当前时间自动开启不在营业时间内的店铺
+     */
+    void autoOpen();
+
+    /**
      * 开启店铺
      *
      * @param id 店铺ID
@@ -135,4 +162,6 @@ public interface StoreService extends IService<Store> {
      * @param goodsId 店铺ID
      */
     void updateStoreCollectionNum(String goodsId);
+
+
 }

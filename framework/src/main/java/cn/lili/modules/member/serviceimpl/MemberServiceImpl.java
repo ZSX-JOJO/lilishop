@@ -2,6 +2,7 @@ package cn.lili.modules.member.serviceimpl;
 
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.lili.cache.Cache;
 import cn.lili.cache.CachePrefix;
 import cn.lili.common.context.ThreadContextHolder;
@@ -162,9 +163,12 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
             throw new ServiceException(ResultCode.USER_PASSWORD_ERROR);
         }
         //对店铺状态的判定处理
-        if (member.getHaveStore()) {
+        if (Boolean.TRUE.equals(member.getHaveStore())) {
             Store store = storeService.getById(member.getStoreId());
-            if (!store.getStoreDisable().equals(StoreStatusEnum.OPEN.name())) {
+            if (Boolean.FALSE.equals(store.getDepositPayment())) {
+                throw new ServiceException(ResultCode.STORE_DEPOSIT_ERROR);
+            }
+            if (!CharSequenceUtil.equalsAny(store.getStoreDisable(), StoreStatusEnum.OPEN.name(), StoreStatusEnum.SHUT_DOWN.name(), StoreStatusEnum.MANUALLY_SHUT_DOWN.name())) {
                 throw new ServiceException(ResultCode.STORE_CLOSE_ERROR);
             }
         } else {

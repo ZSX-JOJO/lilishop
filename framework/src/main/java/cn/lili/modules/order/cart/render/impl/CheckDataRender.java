@@ -25,6 +25,8 @@ import cn.lili.modules.promotion.entity.dos.PromotionGoods;
 import cn.lili.modules.promotion.entity.vos.PointsGoodsVO;
 import cn.lili.modules.promotion.service.PintuanService;
 import cn.lili.modules.promotion.service.PointsGoodsService;
+import cn.lili.modules.store.entity.enums.StoreStatusEnum;
+import cn.lili.modules.store.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +60,9 @@ public class CheckDataRender implements CartRenderStep {
     @Autowired
     private PointsGoodsService pointsGoodsService;
 
+    @Autowired
+    private StoreService storeService;
+
 
     @Override
     public RenderStepEnums step() {
@@ -87,7 +92,7 @@ public class CheckDataRender implements CartRenderStep {
         for (CartSkuVO cartSkuVO : tradeDTO.getSkuList()) {
 
             //如果失效，确认sku为未选中状态
-            if (cartSkuVO.getInvalid()) {
+            if (Boolean.TRUE.equals(cartSkuVO.getInvalid())) {
                 //设置购物车未选中
                 cartSkuVO.setChecked(false);
             }
@@ -95,7 +100,7 @@ public class CheckDataRender implements CartRenderStep {
             //缓存中的商品信息
             GoodsSku dataSku = goodsSkuService.getGoodsSkuByIdFromCache(cartSkuVO.getGoodsSku().getId());
             //商品有效性判定
-            if (dataSku == null || dataSku.getUpdateTime().before(cartSkuVO.getGoodsSku().getUpdateTime())) {
+            if (dataSku == null || dataSku.getUpdateTime().before(cartSkuVO.getGoodsSku().getUpdateTime()) || !StoreStatusEnum.OPEN.name().equals(storeService.getById(cartSkuVO.getStoreId()).getStoreDisable())) {
                 //设置购物车未选中
                 cartSkuVO.setChecked(false);
                 //设置购物车此sku商品已失效

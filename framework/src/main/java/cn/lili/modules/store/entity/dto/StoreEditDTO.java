@@ -166,6 +166,9 @@ public class StoreEditDTO {
     @ApiModelProperty(value = "是否自营", required = true)
     private Boolean selfOperated;
 
+    @ApiModelProperty(value = "是否缴纳押金")
+    private Boolean depositPayment;
+
     @ApiModelProperty(value = "经纬度")
     private String storeCenter;
 

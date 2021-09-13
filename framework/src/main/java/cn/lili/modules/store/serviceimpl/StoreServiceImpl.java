@@ -216,6 +216,55 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, Store> implements
         throw new ServiceException(ResultCode.STORE_NOT_EXIST);
     }
 
+    /**
+     * 关闭店铺
+     *
+     * @param id 店铺ID
+     * @return 店铺
+     */
+    @Override
+    public boolean shutDown(String id) {
+        Store store = this.getById(id);
+        if (store != null) {
+            store.setStoreDisable(StoreStatusEnum.MANUALLY_SHUT_DOWN.value());
+            return this.updateById(store);
+        }
+        throw new ServiceException(ResultCode.STORE_NOT_EXIST);
+    }
+
+    /**
+     * 审核缴纳押金
+     *
+     * @param id      店铺ID
+     * @param confirm 是否确认缴纳押金
+     * @return 是否更新成功
+     */
+    @Override
+    public boolean auditDepositPayment(String id, Boolean confirm) {
+        Store store = this.getById(id);
+        if (store != null) {
+            store.setDepositPayment(confirm);
+            return this.updateById(store);
+        }
+        throw new ServiceException(ResultCode.STORE_NOT_EXIST);
+    }
+
+    /**
+     * 根据当前时间自动歇业不在营业时间内的店铺
+     */
+    @Override
+    public void autoShutdown() {
+        this.baseMapper.autoShutDownStore();
+    }
+
+    /**
+     * 根据当前时间自动开启不在营业时间内的店铺
+     */
+    @Override
+    public void autoOpen() {
+        this.baseMapper.autoOpenStore();
+    }
+
     @Override
     public boolean enable(String id) {
         Store store = this.getById(id);
@@ -283,6 +332,8 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, Store> implements
         store.setStoreCenter(storeOtherInfoDTO.getStoreCenter());
         store.setStoreDesc(storeOtherInfoDTO.getStoreDesc());
         store.setStoreLogo(storeOtherInfoDTO.getStoreLogo());
+        store.setStoreOpenTime(storeOtherInfoDTO.getStoreOpenTime());
+        store.setStoreCloseTime(storeOtherInfoDTO.getStoreCloseTime());
         return this.updateById(store);
     }
 

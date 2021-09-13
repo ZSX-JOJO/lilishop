@@ -15,6 +15,17 @@ public enum StoreStatusEnum {
      * 店铺关闭
      */
     CLOSED("店铺关闭"),
+
+    /**
+     * 歇业
+     */
+    SHUT_DOWN("歇业"),
+
+    /**
+     * 手动关闭
+     */
+    MANUALLY_SHUT_DOWN("手动歇业"),
+
     /**
      * 申请开店
      */

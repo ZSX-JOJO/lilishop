@@ -109,6 +109,20 @@ public class StoreManagerController {
         return ResultUtil.success();
     }
 
+    @ApiOperation(value = "店铺手动歇业")
+    @ApiImplicitParam(name = "id", value = "店铺id", required = true, dataType = "String", paramType = "path")
+    @PutMapping(value = "/shutDown/{id}")
+    public ResultMessage<Object> shutDown(@PathVariable String id) {
+        return ResultUtil.data(storeService.shutDown(id));
+    }
+
+    @ApiOperation(value = "审核缴纳押金")
+    @ApiImplicitParam(name = "id", value = "店铺id", required = true, dataType = "String", paramType = "path")
+    @PutMapping(value = "/depositPayment/{id}")
+    public ResultMessage<Object> auditDepositPayment(@PathVariable String id, @RequestParam(required = false, defaultValue = "true") Boolean confirm) {
+        return ResultUtil.data(storeService.auditDepositPayment(id, confirm));
+    }
+
     @ApiOperation(value = "查询一级分类列表")
     @ApiImplicitParam(name = "storeId", value = "店铺id", required = true, dataType = "String", paramType = "path")
     @GetMapping(value = "/managementCategory/{storeId}")
